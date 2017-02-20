@@ -1,33 +1,34 @@
 ---
-# This default profile is used when running a single instance completely standalone:
+# Default profile is used when running a single instance completely standalone:
 spring:
+  application:
+    name: myapp-eureka-single-server
   profiles: default
 server:
   port: 17001  
 eureka:
   environment: dev
   instance:
-    hostname: eurekahost 
+    hostname: localhost
   client:
-    registerWithEureka: false
+    registerWithEureka: true
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/    
 
 # primary, secondary illustrate running 2 intercommunicating instances.  This example has them running
-# side-by-side on localhost -- which is unrealistic in production -- but does illustrate how multiple instances collaborate.
 
 ---
 spring:
   application:
-    name: eureka-server-clustered   
+    name: myapp-eureka-server   
   profiles: primary
 server:
   port: 17001  
 eureka:
   environment: dev
   instance:
-    hostname: eureka-primary       
+    hostname: localhost       
   client:
     registerWithEureka: true
     fetchRegistry: true        
@@ -37,14 +38,14 @@ eureka:
 ---
 spring:
   application:
-    name: eureka-server-clustered      
+    name: myapp-eureka-server      
   profiles: secondary
 server:
   port: 17002
 eureka: 
   environment: dev
   instance:
-    hostname: eureka-secondary       
+    hostname: localhost     
   client:
     registerWithEureka: true
     fetchRegistry: true        
